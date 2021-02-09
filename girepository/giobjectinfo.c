@@ -134,6 +134,29 @@ g_object_info_get_abstract (GIObjectInfo *info)
 }
 
 /**
+ * g_object_info_get_final:
+ * @info: a #GIObjectInfo
+ *
+ * Checks whether the object type is a final type, i.e. if it cannot
+ * be derived
+ *
+ * Returns: %TRUYE if the object type is final
+ */
+gboolean
+g_object_info_get_final (GIObjectInfo *info)
+{
+  GIRealInfo *rinfo = (GIRealInfo *) info;
+  ObjectBlob *blob;
+
+  g_return_val_if_fail (info != NULL, FALSE);
+  g_return_val_if_fail (GI_IS_OBJECT_INFO (info), FALSE);
+
+  blob = (ObjectBlob *) &rinfo->typelib->data[rinfo->offset];
+
+  return blob->final_ != 0;
+}
+
+/**
  * g_object_info_get_fundamental:
  * @info: a #GIObjectInfo
  *

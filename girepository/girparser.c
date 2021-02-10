@@ -316,6 +316,11 @@ locate_gir (GIrParser  *parser,
         }
     }
 
+  path = g_build_filename (g_get_user_data_dir (), GIR_SUFFIX, girname, NULL);
+  if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+    return path;
+  g_free (path);
+
   for (dir = datadirs; *dir; dir++)
     {
       path = g_build_filename (*dir, GIR_SUFFIX, girname, NULL);

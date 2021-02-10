@@ -183,6 +183,9 @@ None."""
     def _find_include(self, include):
         searchdirs = self._includepaths[:]
         searchdirs.extend(os.getenv('GI_GIR_PATH', '').split(os.pathsep))
+        user_data = utils.get_user_data_dir()
+        if user_data is not None:
+            searchdirs.append(os.path.join(user_data, 'gir-1.0'))
         for path in utils.get_system_data_dirs():
             searchdirs.append(os.path.join(path, 'gir-1.0'))
         searchdirs.append(GIR_DIR)

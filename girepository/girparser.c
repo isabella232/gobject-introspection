@@ -329,6 +329,19 @@ locate_gir (GIrParser  *parser,
   if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
     return path;
   g_free (path);
+
+  path = g_build_filename (GOBJECT_INTROSPECTION_DATADIR, GIR_SUFFIX, girname, NULL);
+  if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+    return path;
+  g_free (path);
+
+#ifdef G_OS_UNIX
+  path = g_build_filename ("/usr/share", GIR_SUFFIX, girname, NULL);
+  if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
+    return path;
+  g_free (path);
+#endif
+
   return NULL;
 }
 

@@ -190,12 +190,14 @@ None."""
 
     def _find_include(self, include):
         searchdirs = self._includepaths[:]
-        searchdirs.extend(GIRDIR)
+        searchdirs.extend(os.getenv('GI_GIR_PATH', '').split(os.pathsep))
         for path in self._get_gi_data_dirs():
             searchdirs.append(os.path.join(path, 'gir-1.0'))
 
         girname = '%s-%s.gir' % (include.name, include.version)
         for d in searchdirs:
+            if not d:
+                continue
             path = os.path.join(d, girname)
             if os.path.exists(path):
                 return path
